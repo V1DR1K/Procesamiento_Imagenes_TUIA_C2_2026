@@ -45,3 +45,13 @@ Para ejecutar las verificaciones:
 ```
 
 La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un cuadrado, una diagonal, la letra a, cuatro líneas horizontales y un círculo.
+
+## Apartado c
+
+[comparar_ventanas.py](comparar_ventanas.py) ejecuta diez tamaños: 1x1, 3x3, 7x7, 15x15, 31x31, 63x63, 127x127, 7x31, 31x7 y 4x6. Guarda las imágenes, comparaciones y tiempos en `resultados/c`.
+
+```powershell
+.\.venv\Scripts\python.exe comparar_ventanas.py
+```
+
+La [explicación del apartado c](docs/apartado_c.md) analiza el contraste, los halos, las variaciones del fondo y la orientación de los rectángulos. Para esta imagen se eligió 15x15, mientras que 31x31 también permite reconocer los detalles.
