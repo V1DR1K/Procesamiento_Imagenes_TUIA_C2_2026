@@ -2,6 +2,7 @@
 
 import argparse
 from pathlib import Path
+import tempfile
 
 import cv2
 import matplotlib
@@ -14,9 +15,10 @@ import matplotlib.pyplot as plt
 from ecualizacion import ecualizacion_local
 
 
-# Las rutas predeterminadas se resuelven desde el repositorio, no desde la terminal.
+# La imagen se entrega junto al repositorio; los resultados van a la carpeta temporal.
 RAIZ = Path(__file__).resolve().parent
-IMAGEN = RAIZ / "datos" / "Imagen_con_detalles_escondidos.tif"
+IMAGEN = RAIZ.parent / "Imagen_con_detalles_escondidos.tif"
+SALIDAS_TEMPORALES = Path(tempfile.gettempdir()) / "Procesamiento_Imagenes_TUIA_C2_2026"
 # Unidad 1, página 12: recortes con coordenadas (fila inicial, final, columna inicial, final).
 ZONAS = [
     ("Superior izquierda", (6, 68, 6, 68)),
@@ -55,7 +57,7 @@ def analizar_imagen(ruta_imagen=IMAGEN, ventana=(15, 15), carpeta_salida=None):
     # Se llama a la función propia del apartado a; no a una ecualización local de OpenCV.
     local = ecualizacion_local(imagen, ventana)
     global_ = ecualizacion_global(imagen)
-    carpeta = Path(carpeta_salida) if carpeta_salida is not None else RAIZ / "resultados" / "b"
+    carpeta = Path(carpeta_salida) if carpeta_salida is not None else SALIDAS_TEMPORALES / "b"
     carpeta.mkdir(parents=True, exist_ok=True)
     m, n = ventana
     guardar_imagen(carpeta / "original.png", imagen)
@@ -100,6 +102,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--imagen", type=Path, default=IMAGEN)
     parser.add_argument("--ventana", nargs=2, type=int, default=(15, 15), metavar=("M", "N"))
-    parser.add_argument("--salida", type=Path, default=RAIZ / "resultados" / "b")
+    parser.add_argument("--salida", type=Path, default=SALIDAS_TEMPORALES / "b")
     args = parser.parse_args()
     analizar_imagen(args.imagen, tuple(args.ventana), args.salida)

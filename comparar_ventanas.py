@@ -6,7 +6,7 @@ from pathlib import Path
 from time import perf_counter
 
 # Reutilizamos la lectura y la referencia global del apartado b.
-from analizar_imagen import IMAGEN, RAIZ, ZONAS, ecualizacion_global, guardar_imagen, leer_imagen
+from analizar_imagen import IMAGEN, SALIDAS_TEMPORALES, ZONAS, ecualizacion_global, guardar_imagen, leer_imagen
 import matplotlib.pyplot as plt
 
 from ecualizacion import ecualizacion_local
@@ -20,7 +20,7 @@ VENTANAS = [(1, 1), (3, 3), (7, 7), (15, 15), (31, 31), (63, 63),
 
 def comparar_ventanas(ruta_imagen=IMAGEN, carpeta_salida=None):
     imagen = leer_imagen(ruta_imagen)
-    carpeta = Path(carpeta_salida) if carpeta_salida is not None else RAIZ / "resultados" / "c"
+    carpeta = Path(carpeta_salida) if carpeta_salida is not None else SALIDAS_TEMPORALES / "c"
     carpeta.mkdir(parents=True, exist_ok=True)
     resultados = {}
     tiempos = []
@@ -83,6 +83,6 @@ def comparar_ventanas(ruta_imagen=IMAGEN, carpeta_salida=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--imagen", type=Path, default=IMAGEN)
-    parser.add_argument("--salida", type=Path, default=RAIZ / "resultados" / "c")
+    parser.add_argument("--salida", type=Path, default=SALIDAS_TEMPORALES / "c")
     args = parser.parse_args()
     comparar_ventanas(args.imagen, args.salida)

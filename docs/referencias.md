@@ -20,7 +20,7 @@ Los demás PDF se conservan como documentación recibida; no se aplican técnica
 
 ## Archivo de entrada y alcance
 
-La página 1 del enunciado menciona `Imagen_con_objetos_ocultos.tiff`, pero el archivo proporcionado se llama `Imagen_con_detalles_escondidos.tif`. Se conserva su nombre real en `datos/`; es una imagen de 256 filas por 256 columnas, de un canal y 8 bits, que coincide visualmente con la figura 1.
+La página 1 del enunciado menciona `Imagen_con_objetos_ocultos.tiff`, pero el archivo proporcionado se llama `Imagen_con_detalles_escondidos.tif`. Está entre los archivos suministrados junto al repositorio; se pasa al programa mediante `--imagen` y no se incluye en el repositorio para respetar los formatos admitidos. Es una imagen de 256 filas por 256 columnas, de un canal y 8 bits, que coincide visualmente con la figura 1.
 
 Los archivos `grade_sheet_*.png` son las entradas del Problema 2 (páginas 2 a 4), por lo que no se procesan en esta entrega.
 

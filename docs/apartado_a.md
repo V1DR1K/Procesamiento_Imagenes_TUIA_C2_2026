@@ -32,7 +32,7 @@ Esta implementación explícita es fácil de seguir, aunque recalcular el histog
 Se comprueban un ejemplo calculado a mano, los bordes, ventanas pares, impares, rectangulares y mayores que la imagen, imágenes uniformes, la ventana `(1, 1)`, entradas inválidas y que la imagen original no cambie. El resultado también se contrasta con un conteo directo de píxeles de intensidad menor o igual que el centro, independiente del cálculo de histograma.
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v
 ```
 
 Las pruebas son una verificación auxiliar y no agregan operaciones de procesamiento de imágenes a la solución. Las fuentes originales y sus páginas se encuentran en [referencias.md](referencias.md).
