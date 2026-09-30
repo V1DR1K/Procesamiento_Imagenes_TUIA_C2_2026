@@ -55,3 +55,11 @@ La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un 
 ```
 
 La [explicación del apartado c](docs/apartado_c.md) analiza el contraste, los halos, las variaciones del fondo y la orientación de los rectángulos. Para esta imagen se eligió 15x15, mientras que 31x31 también permite reconocer los detalles.
+
+## Informe y archivos entregados
+
+El [informe del problema 1](docs/informe.md) reúne el resumen y los enlaces a cada apartado. El [registro de validación](docs/validacion.md) indica qué se comprobó y cómo repetirlo.
+
+Se incluyen tres archivos de implementación, las pruebas, 18 imágenes de resultados y figuras, un CSV de tiempos, la imagen de entrada y diez PDF de documentación original. Cada apartado tiene su propio commit, además de los commits de preparación y documentación.
+
+Para elegir una ventana, las dimensiones se expresan como **filas por columnas**. La entrada de la función es una imagen en gris de 8 bits. Los argumentos `--imagen` y `--salida` permiten indicar otras rutas; el apartado b también acepta `--ventana M N`.
