@@ -35,3 +35,13 @@ Para ejecutar las verificaciones:
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
+
+## Apartado b
+
+[analizar_imagen.py](analizar_imagen.py) procesa la imagen proporcionada y guarda la comparación global/local, sus histogramas y los recortes de las cinco zonas en `resultados/b`.
+
+```powershell
+.\.venv\Scripts\python.exe analizar_imagen.py
+```
+
+La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un cuadrado, una diagonal, la letra a, cuatro líneas horizontales y un círculo.
