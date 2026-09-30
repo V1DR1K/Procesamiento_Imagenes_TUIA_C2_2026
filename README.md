@@ -33,17 +33,20 @@ La función está en [ecualizacion.py](ecualizacion.py). La [explicación del ap
 
 ```python
 import cv2
+from pathlib import Path
+import tempfile
 from ecualizacion import ecualizacion_local
 
 imagen = cv2.imread(r"C:\ruta\Imagen_con_detalles_escondidos.tif", cv2.IMREAD_GRAYSCALE)
 resultado = ecualizacion_local(imagen, (15, 15))
-cv2.imwrite("resultado.png", resultado)
+salida = Path(tempfile.gettempdir()) / "resultado.png"
+cv2.imwrite(str(salida), resultado)
 ```
 
 Para ejecutar las verificaciones:
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v
 ```
 
 ## Apartado b

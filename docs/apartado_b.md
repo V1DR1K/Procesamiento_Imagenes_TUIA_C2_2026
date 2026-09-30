@@ -1,6 +1,6 @@
 # Apartado b Detalles ocultos de la imagen
 
-Se aplicó la función del apartado a sobre `datos/Imagen_con_detalles_escondidos.tif`, con una ventana de **15 por 15 píxeles**. Se inspeccionó el resultado y se identificaron los cinco detalles de la figura 1. La elección de esta ventana sirve para el análisis inicial; su influencia se estudia en el apartado c.
+Se aplicó la función del apartado a sobre `Imagen_con_detalles_escondidos.tif`, suministrada junto al enunciado, con una ventana de **15 por 15 píxeles**. Se inspeccionó el resultado y se identificaron los cinco detalles de la figura 1. La elección de esta ventana sirve para el análisis inicial; su influencia se estudia en el apartado c.
 
 ## Objetos observados
 
@@ -14,7 +14,7 @@ Se aplicó la función del apartado a sobre `datos/Imagen_con_detalles_escondido
 
 Los índices comienzan en cero y el extremo final de cada recorte queda excluido, como en el indexado de arreglos mostrado en la Unidad 1, página 12. Los nombres se asignaron por inspección visual; no se utilizó reconocimiento automático de objetos.
 
-![Original arriba y resultado local abajo, para las cinco zonas](../resultados/b/zonas.png)
+<!-- CAPTURA: b_zonas -->
 
 ## Por qué mejora la visibilidad
 
@@ -24,7 +24,7 @@ La ecualización local calcula probabilidades usando los píxeles cercanos al ce
 
 Como referencia, se calculó también una ecualización global con la misma fórmula y el mismo redondeo, considerando toda la imagen. Los detalles siguen siendo débiles porque predominan el fondo claro y los grandes cuadrados oscuros. En la versión local se distinguen con mayor claridad las cinco formas.
 
-![Comparación de imágenes e histogramas](../resultados/b/comparacion_histogramas.png)
+<!-- CAPTURA: b_histogramas -->
 
 Todos los paneles de imágenes usan `vmin=0` y `vmax=255`, como se muestra en la Unidad 1, páginas 6 y 7. Se evita que el visor ajuste por separado el contraste de cada imagen. Cada histograma conserva los 256 intervalos; su eje vertical se ajusta por panel para visualizar sus conteos.
 
@@ -39,13 +39,13 @@ Las zonas uniformes se aproximan al blanco porque la CDF directa vale 1 en su ú
 Desde la raíz del repositorio:
 
 ```powershell
-.\.venv\Scripts\python.exe analizar_imagen.py
+.\.venv\Scripts\python.exe -B analizar_imagen.py --imagen "C:\\ruta\\Imagen_con_detalles_escondidos.tif"
 ```
 
 Opcionalmente se puede indicar otra ventana:
 
 ```powershell
-.\.venv\Scripts\python.exe analizar_imagen.py --ventana 15 15 --salida resultados/b
+.\.venv\Scripts\python.exe -B analizar_imagen.py --imagen "C:\\ruta\\Imagen_con_detalles_escondidos.tif" --ventana 15 15 --salida "$env:TEMP\\Procesamiento_Imagenes_TUIA_C2_2026\\b"
 ```
 
-El script genera `original.png`, `global.png`, `local_15x15.png`, `comparacion_histogramas.png` y `zonas.png`. Las imágenes de salida se guardan como PNG, según la escritura presentada en la Unidad 1, página 8. El [mapa de referencias](referencias.md) permite consultar las fuentes originales.
+El script genera `original.png`, `global.png`, `local_15x15.png`, `comparacion_histogramas.png` y `zonas.png` en la carpeta indicada con `--salida` o en la carpeta temporal del sistema. Las figuras se incorporan al PDF del informe. El [mapa de referencias](referencias.md) permite consultar las fuentes originales.
