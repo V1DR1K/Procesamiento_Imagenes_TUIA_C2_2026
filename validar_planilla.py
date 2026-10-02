@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import tempfile
 from pathlib import Path
-
+import csv
 SALIDAS_TEMPORALES = Path(tempfile.gettempdir()) / "Procesamiento_Imagenes_TUIA_C2_2026"
 
 def extraer_grilla(imagen_ruta):
@@ -142,10 +142,47 @@ def validar_fila(celdas):
     
     return [ok_leg, ok_nom, ok_p1, ok_p2, ok_p3, ok_cond]
 
-def procesar_apartados_2a_2b():
+    """Genera un archivo CSV con los resultados de las validaciones.
+    
+    Resuelve el apartado 2.c del TP.
+    """
+def generar_csv_resultados(celdas_registros, ruta_salida_csv):
+
+    encabezados = [
+        "ID", 
+        "Legajo", 
+        "Nombre y Apellido", 
+        "Parcial 1", 
+        "Parcial 2", 
+        "Parcial 3", 
+        "Condicion Final"
+    ]
+    
+    filas_csv = []
+    
+    # Recorremos cada registro (fila de celdas)
+    for idx, fila_celdas in enumerate(celdas_registros):
+        validacion_bool = validar_fila(fila_celdas)
+        resultados_str = ["OK" if es_ok else "MAL" for es_ok in validacion_bool]
+        
+        # Formamos la fila con el ID en la primera columna + los resultados
+        id_registro = idx + 1
+        fila_registro = [id_registro] + resultados_str
+        filas_csv.append(fila_registro)
+        
+    # Escribimos el archivo CSV
+    with open(ruta_salida_csv, mode="w", newline="", encoding="utf-8") as archivo:
+        escritor = csv.writer(archivo)
+        escritor.writerow(encabezados) 
+        escritor.writerows(filas_csv)   
+
+    print(f"Apartado 2.c: Archivo CSV generado exitosamente en {ruta_salida_csv}")
+
+def procesar_apartados_2a_2b_2c():
     SALIDAS_TEMPORALES.mkdir(parents=True, exist_ok=True)
     img_salida_path = SALIDAS_TEMPORALES / "apartado_2b_recortes_LR.png"
-    ruta = Path("grade_sheet_1.png")
+    csv_salida_path = SALIDAS_TEMPORALES / "resultados_validacion.csv"
+    ruta = Path(r"D:\PDI-TUIA\TP\grade_sheet_1.png")
     
     if not ruta.exists():
         print(f"Error: No se encontró {ruta.name}")
@@ -191,6 +228,8 @@ def procesar_apartados_2a_2b():
         collage_final = np.vstack(recortes_unificados)
         cv2.imwrite(str(img_salida_path), collage_final)
         print(f"Apartado 2.b: Imagen de recortes guardada en {img_salida_path}")
-
+        
+    generar_csv_resultados(celdas_registros, csv_salida_path)
+    
 if __name__ == "__main__":
-    procesar_apartados_2a_2b()
+    procesar_apartados_2a_2b_2c()
