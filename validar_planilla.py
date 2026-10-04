@@ -1,7 +1,8 @@
 """Problema 2: Validación de planilla de calificaciones sin OCR.
-Resolución de apartados 2.a y 2.b.
+Resolución de apartados 2.a, 2.b, 2.c y 2.d.
 """
 
+import argparse
 import cv2
 import numpy as np
 import tempfile
@@ -11,7 +12,9 @@ SALIDAS_TEMPORALES = Path(tempfile.gettempdir()) / "Procesamiento_Imagenes_TUIA_
 
 def extraer_grilla(imagen_ruta):
     """Detecta las líneas de la tabla y recorta las celdas en escala de grises."""
-    img = cv2.imread(str(imagen_ruta), cv2.IMREAD_GRAYSCALE)
+    # cv2.imread falla en Windows con rutas con tildes (por ejemplo "Imágenes"):
+    # leemos los bytes con NumPy y los decodificamos con OpenCV.
+    img = cv2.imdecode(np.fromfile(str(imagen_ruta), dtype=np.uint8), cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise ValueError(f"No se pudo leer la imagen: {imagen_ruta}")
 
@@ -69,7 +72,8 @@ def contar_caracteres_y_palabras(celda_gris):
     num_labels, _, stats, _ = cv2.connectedComponentsWithStats(celda_th, connectivity=8, ltype=cv2.CV_32S)
     
     caracteres_validos = []
-    area_minima = 2 
+    # Con 2 se descartaba el punto de "1.0" (área 2 px). El margen de la celda ya quita las líneas.
+    area_minima = 1
     
     for i in range(1, num_labels):
         area = stats[i, cv2.CC_STAT_AREA]
@@ -178,23 +182,30 @@ def generar_csv_resultados(celdas_registros, ruta_salida_csv):
 
     print(f"Apartado 2.c: Archivo CSV generado exitosamente en {ruta_salida_csv}")
 
-def procesar_apartados_2a_2b_2c():
-    SALIDAS_TEMPORALES.mkdir(parents=True, exist_ok=True)
-    img_salida_path = SALIDAS_TEMPORALES / "apartado_2b_recortes_LR.png"
-    csv_salida_path = SALIDAS_TEMPORALES / "resultados_validacion.csv"
-    ruta = Path(r"D:\PDI-TUIA\TP\grade_sheet_1.png")
-    
+def procesar_planilla(ruta, carpeta_salida=None):
+    """Resuelve 2.a, 2.b y 2.c para una planilla y devuelve un resumen para 2.d."""
+    ruta = Path(ruta)
     if not ruta.exists():
-        print(f"Error: No se encontró {ruta.name}")
-        return
+        raise FileNotFoundError(f"No se encontró la planilla: {ruta}")
+    carpeta = Path(carpeta_salida) if carpeta_salida is not None else SALIDAS_TEMPORALES / ruta.stem
+    carpeta.mkdir(parents=True, exist_ok=True)
+    # Cada planilla escribe sus salidas con su nombre para no pisar las de las otras.
+    img_salida_path = carpeta / f"{ruta.stem}_recortes_LR.png"
+    csv_salida_path = carpeta / f"{ruta.stem}_validacion.csv"
 
     celdas_registros = extraer_grilla(ruta)
     recortes_imagenes = []
-    
+    resumen = {"planilla": ruta.name, "filas": len(celdas_registros), "vacias": 0,
+               "correctos": 0, "libres": 0, "recuperan": 0,
+               "imagen": None, "csv": csv_salida_path}
+
     for idx, fila_celdas in enumerate(celdas_registros):
         validacion = validar_fila(fila_celdas)
         es_valido_total = all(validacion)
-        
+        # Para el resumen de 2.d: una fila sin ningún carácter en sus seis campos está vacía.
+        if all(contar_caracteres_y_palabras(celda)[0] == 0 for celda in fila_celdas):
+            resumen["vacias"] += 1
+
         # Apartado 2.a
         str_resultados = ["OK" if v else "MAL" for v in validacion]
         print(f"> Registro {idx + 1}:")
@@ -207,8 +218,10 @@ def procesar_apartados_2a_2b_2c():
         
         # Apartado 2.b
         if es_valido_total:
+            resumen["correctos"] += 1
             condicion = clasificar_condicion(fila_celdas[5])
             if condicion in ['L', 'R']:
+                resumen["libres" if condicion == 'L' else "recuperan"] += 1
                 nombre_color = cv2.cvtColor(fila_celdas[1], cv2.COLOR_GRAY2BGR)
                 color_borde = (255, 0, 0) if condicion == 'L' else (0, 0, 255) # Azul Libre, Rojo Recupera
                 nombre_con_borde = cv2.copyMakeBorder(
@@ -226,10 +239,24 @@ def procesar_apartados_2a_2b_2c():
             recortes_unificados.append(img)
             
         collage_final = np.vstack(recortes_unificados)
-        cv2.imwrite(str(img_salida_path), collage_final)
+        # Igual que en la lectura: codificamos con OpenCV y escribimos con NumPy por las tildes.
+        ok, png = cv2.imencode(".png", collage_final)
+        if not ok:
+            raise OSError(f"No se pudo guardar la imagen: {img_salida_path}")
+        png.tofile(str(img_salida_path))
+        resumen["imagen"] = img_salida_path
         print(f"Apartado 2.b: Imagen de recortes guardada en {img_salida_path}")
+    else:
+        print("Apartado 2.b: no hay registros correctos con condición L o R; no se genera imagen.")
         
     generar_csv_resultados(celdas_registros, csv_salida_path)
-    
+    return resumen
+
+
 if __name__ == "__main__":
-    procesar_apartados_2a_2b_2c()
+    # Procesa una sola planilla; procesar_planillas.py recorre las cuatro (apartado 2.d).
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--imagen", type=Path, required=True)
+    parser.add_argument("--salida", type=Path, default=None)
+    args = parser.parse_args()
+    procesar_planilla(args.imagen, args.salida)
