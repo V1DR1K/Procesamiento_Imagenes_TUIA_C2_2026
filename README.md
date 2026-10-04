@@ -71,6 +71,17 @@ La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un 
 
 La [explicación del apartado c](docs/apartado_c.md) analiza el contraste, los halos, las variaciones del fondo y la orientación de los rectángulos. Para esta imagen se eligió 15x15, mientras que 31x31 también permite reconocer los detalles.
 
+## Problema 2, apartado d
+
+[procesar_planillas.py](procesar_planillas.py) aplica de forma cíclica la validación de [validar_planilla.py](validar_planilla.py) a todos los archivos `grade_sheet_<id>.png` de una carpeta, ordenados por id; la planilla vacía queda excluida. Por cada planilla se guardan su imagen de recortes y su CSV en una subcarpeta propia, y al final se muestra un resumen de todas.
+
+```powershell
+$planillas = "C:\ruta\planillas"
+.\.venv\Scripts\python.exe procesar_planillas.py --carpeta $planillas --salida (Join-Path $salidaTp "planillas")
+```
+
+Para validar una sola planilla: `.\.venv\Scripts\python.exe validar_planilla.py --imagen (Join-Path $planillas "grade_sheet_1.png")`. La [explicación del apartado 2.d](docs/apartado_d.md) detalla la organización y las salidas.
+
 ## Informe en PDF
 
 El [informe fuente en Markdown](docs/informe.md) incluye marcas para insertar las capturas generadas por los apartados b y c. Después de ejecutar ambos scripts, se compila con:
