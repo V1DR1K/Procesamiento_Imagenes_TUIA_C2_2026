@@ -1,6 +1,6 @@
-# Referencias de la cátedra para el problema 1
+# Referencias de la cátedra para los problemas 1 y 2
 
-Se adjuntan el [enunciado original](fuentes/TUIA_PDI_TP1_2026_C2.pdf) y los nueve PDF originales de la carpeta `Catedra`, sin modificarlos. La solución usa solamente los contenidos que se indican a continuación. Los números corresponden a las páginas del PDF, contando desde 1.
+Se adjuntan el [enunciado original](fuentes/TUIA_PDI_TP1_2026_C2.pdf) y los nueve PDF originales de la carpeta `Catedra`, sin modificarlos. La tabla resume los contenidos de cátedra consultados; los números corresponden a las páginas del PDF, contando desde 1.
 
 | Contenido utilizado | Fuente | Páginas |
 | --- | --- | --- |
@@ -15,14 +15,15 @@ Se adjuntan el [enunciado original](fuentes/TUIA_PDI_TP1_2026_C2.pdf) y los nuev
 | Ecualización y transformación acumulada discreta | PDI_TUIA_U2_Transformacion_y_Filtrado.pdf | 11 a 13 |
 | Comparación de imágenes y sus histogramas | PDI_TUIA_U2_Transformacion_y_Filtrado.pdf | 14 |
 | `np.histogram`, división por el número de píxeles y `cumsum` | PDI_TUIA_U2_Transformacion_y_Filtrado.pdf | 15 |
+| Requisitos de los campos, ayudas para localizar la grilla y procesamiento cíclico de planillas | Enunciado del TP1 | 2 a 4 |
 
-Los demás PDF se conservan como documentación recibida; no se aplican técnicas de segmentación, restauración, color, morfología, descriptores ni filtrado frecuencial para resolver este problema.
+Los demás PDF se conservan como documentación recibida. Para el Problema 1 no se aplican técnicas de restauración, color, morfología, descriptores ni filtrado frecuencial; el Problema 2 se resuelve con los requisitos y ayudas del enunciado.
 
 ## Archivo de entrada y alcance
 
 La página 1 del enunciado menciona `Imagen_con_objetos_ocultos.tiff`, pero el archivo proporcionado se llama `Imagen_con_detalles_escondidos.tif`. Está entre los archivos suministrados junto al repositorio; se pasa al programa mediante `--imagen` y no se incluye en el repositorio para respetar los formatos admitidos. Es una imagen de 256 filas por 256 columnas, de un canal y 8 bits, que coincide visualmente con la figura 1.
 
-Los archivos `grade_sheet_*.png` son las entradas del Problema 2 (páginas 2 a 4), por lo que no se procesan en esta entrega.
+Los archivos `grade_sheet_<id>.png` son las entradas de los apartados 2.a a 2.d. La planilla `grade_sheet_empty.png` se excluye del procesamiento cíclico porque no tiene un id numérico.
 
 ## Decisiones de implementación
 

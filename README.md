@@ -2,9 +2,9 @@
 
 **Integrantes:** Tomas Colombo, Manuel Ibarbia, Juan Manuel Ayala y Franco Cerana. TUIA, UNR, segundo semestre de 2026.
 
-Este repositorio resuelve únicamente el **Problema 1: ecualización local de histograma**, apartados a, b y c. Las planillas `grade_sheet` pertenecen al Problema 2 y quedan fuera del alcance solicitado.
+Este repositorio resuelve el **Problema 1: ecualización local de histograma** (apartados a, b y c) y el **Problema 2: validación de planillas** (apartados 2.a, 2.b, 2.c y 2.d).
 
-La implementación y la explicación se basan en el enunciado y en el material proporcionado por la cátedra. Véase el [mapa de referencias](docs/referencias.md), con enlaces a los PDF originales y páginas utilizadas. La resolución abarca el Problema 1, apartados a, b y c.
+La implementación y la explicación se basan en el enunciado y en el material proporcionado por la cátedra. Véase el [mapa de referencias](docs/referencias.md), con enlaces a los PDF originales y páginas utilizadas.
 
 ## Preparación
 
@@ -71,7 +71,11 @@ La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un 
 
 La [explicación del apartado c](docs/apartado_c.md) analiza el contraste, los halos, las variaciones del fondo y la orientación de los rectángulos. Para esta imagen se eligió 15x15, mientras que 31x31 también permite reconocer los detalles.
 
-## Problema 2, apartado d
+## Problema 2: validación de planillas
+
+La función [validar_planilla.py](validar_planilla.py) resuelve 2.a, 2.b y 2.c para una planilla. Localiza la grilla, estima cantidades de caracteres y palabras para validar los seis campos, crea recortes de los nombres para las condiciones L y R cuando todos los campos son correctos y escribe un CSV con los estados. No realiza OCR ni valida semánticamente los datos; los detalles están en las explicaciones de [2.a](docs/apartado_2a.md) y [2.b](docs/apartado_2b.md).
+
+## Problema 2, apartado 2.d
 
 [procesar_planillas.py](procesar_planillas.py) aplica de forma cíclica la validación de [validar_planilla.py](validar_planilla.py) a todos los archivos `grade_sheet_<id>.png` de una carpeta, ordenados por id; la planilla vacía queda excluida. Por cada planilla se guardan su imagen de recortes y su CSV en una subcarpeta propia, y al final se muestra un resumen de todas.
 
@@ -80,7 +84,7 @@ $planillas = "C:\ruta\planillas"
 .\.venv\Scripts\python.exe procesar_planillas.py --carpeta $planillas --salida (Join-Path $salidaTp "planillas")
 ```
 
-Para validar una sola planilla: `.\.venv\Scripts\python.exe validar_planilla.py --imagen (Join-Path $planillas "grade_sheet_1.png")`. La [explicación del apartado 2.d](docs/apartado_d.md) detalla la organización y las salidas.
+Para validar una sola planilla: `.\.venv\Scripts\python.exe validar_planilla.py --imagen (Join-Path $planillas "grade_sheet_1.png")`. La [explicación del apartado 2.d](docs/apartado_2d.md) detalla la organización y las salidas.
 
 ## Informe en PDF
 
@@ -94,7 +98,7 @@ Esto crea `docs/informe.pdf`, con el desarrollo, las observaciones, las conclusi
 
 ## Informe y archivos entregados
 
-El [informe del problema 1 en Markdown](docs/informe.md) y su versión [compilada en PDF](docs/informe.pdf) reúnen el desarrollo, las capturas, el análisis y las conclusiones. El [registro de validación](docs/validacion.md) describe las verificaciones realizadas.
+El [informe de los problemas 1 y 2 en Markdown](docs/informe.md) y su versión [compilada en PDF](docs/informe.pdf) reúnen el desarrollo, las capturas, el análisis y las conclusiones. Los desarrollos modulares del Problema 2 están en [2.a](docs/apartado_2a.md), [2.b](docs/apartado_2b.md) y [2.d](docs/apartado_2d.md). El [registro de validación](docs/validacion.md) describe las verificaciones realizadas.
 
 Los archivos incluidos en el repositorio usan únicamente los formatos `.py`, `.pdf` y `.md`. La imagen de entrada se proporciona con el enunciado; su ruta se indica con `--imagen`. Las figuras y la planilla de tiempos se guardan en la carpeta temporal elegida con `--salida` y se incluyen en el informe PDF.
 

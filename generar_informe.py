@@ -84,6 +84,10 @@ def compilar(informe, salida, capturas_b, capturas_c):
         leading=10.5, spaceAfter=0,
     ))
     estilos.add(ParagraphStyle(
+        name="CabeceraInforme", parent=estilos["CeldaInforme"],
+        fontName="Helvetica-Bold", textColor=colors.white,
+    ))
+    estilos.add(ParagraphStyle(
         name="CodigoInforme", parent=estilos["Code"], fontName="Courier",
         fontSize=8, leading=11, backColor=colors.HexColor("#F0F3F7"),
         borderPadding=8, spaceBefore=4, spaceAfter=10,
@@ -132,8 +136,13 @@ def compilar(informe, salida, capturas_b, capturas_c):
             while indice < len(lineas) and lineas[indice].strip().startswith("|"):
                 filas.append(separar_celdas(lineas[indice].strip()))
                 indice += 1
-            datos = [[Paragraph(formato_en_linea(celda), estilos["CeldaInforme"])
-                      for celda in fila] for fila in filas]
+            datos = []
+            for indice_fila, fila in enumerate(filas):
+                estilo_celda = estilos["CabeceraInforme"] if indice_fila == 0 else estilos["CeldaInforme"]
+                datos.append([
+                    Paragraph(formato_en_linea(celda), estilo_celda)
+                    for celda in fila
+                ])
             cantidad = len(filas[0])
             tabla = Table(
                 datos,
@@ -209,14 +218,14 @@ def compilar(informe, salida, capturas_b, capturas_c):
         canvas.line(documento.leftMargin, alto - 39, ancho - documento.rightMargin, alto - 39)
         canvas.setFont("Helvetica", 8)
         canvas.setFillColor(colors.HexColor("#526477"))
-        canvas.drawString(documento.leftMargin, alto - 31, "Procesamiento de Imágenes I | TP1 | Problema 1")
+        canvas.drawString(documento.leftMargin, alto - 31, "Procesamiento de Imágenes I | TP1 | Problemas 1 y 2")
         canvas.drawRightString(ancho - documento.rightMargin, 24, f"Página {documento.page}")
         canvas.restoreState()
 
     documento = SimpleDocTemplate(
-        str(salida), pagesize=A4, title="Informe TP1 - Problema 1",
+        str(salida), pagesize=A4, title="Informe TP1 - Problemas 1 y 2",
         author="Tomas Colombo, Manuel Ibarbia, Juan Manuel Ayala y Franco Cerana",
-        subject="Ecualización local de histograma",
+        subject="Ecualización local y validación de planillas",
         leftMargin=2 * cm, rightMargin=2 * cm, topMargin=1.8 * cm, bottomMargin=1.5 * cm,
     )
     documento.build(cuerpo, onFirstPage=encabezado_y_pie, onLaterPages=encabezado_y_pie)
