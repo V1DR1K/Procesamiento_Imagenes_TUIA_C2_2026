@@ -13,9 +13,8 @@ def ecualizacion_local(imagen, tamano_ventana):
     """Devuelve una imagen en gris uint8 ecualizada píxel por píxel.
 
     imagen: matriz no vacía de tipo uint8, con intensidades entre 0 y 255.
-    tamano_ventana: (M, N), cantidad de filas y columnas, enteros positivos.
-    En ventanas pares, se toma como centro el índice (M // 2, N // 2).
-    La entrada no se modifica y la salida conserva sus dimensiones.
+    tamano_ventana: (M, N), cantidad de filas y columnas, enteros positivos impares.
+    Con dimensiones impares el píxel central es único y la vecindad es simétrica.
     """
     # Unidad 1, páginas 3 y 14: imagen de un canal representada como matriz uint8.
     if not isinstance(imagen, np.ndarray):
@@ -23,7 +22,8 @@ def ecualizacion_local(imagen, tamano_ventana):
     if imagen.ndim != 2 or imagen.size == 0 or imagen.dtype != np.uint8:
         raise ValueError("La imagen debe ser una matriz no vacía en gris de tipo uint8.")
 
-    # El enunciado pide M y N enteros positivos; se aceptan pares e impares.
+    # El enunciado pide M y N enteros positivos. Además exigimos que sean impares:
+    # así la ventana tiene un píxel central único y una vecindad simétrica.
     if not isinstance(tamano_ventana, (tuple, list)) or len(tamano_ventana) != 2:
         raise ValueError("El tamaño de ventana debe ser (M, N).")
     for dimension in tamano_ventana:
@@ -31,6 +31,8 @@ def ecualizacion_local(imagen, tamano_ventana):
             raise ValueError("M y N deben ser enteros positivos.")
         if dimension <= 0:
             raise ValueError("M y N deben ser enteros positivos.")
+        if dimension % 2 == 0:
+            raise ValueError("M y N deben ser impares para que la ventana tenga un centro único.")
     m, n = (int(dimension) for dimension in tamano_ventana)
 
     # Ubicamos el píxel que se actualizará dentro de la ventana.

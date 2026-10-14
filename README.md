@@ -29,7 +29,7 @@ NumPy, OpenCV y Matplotlib se usan para el procesamiento y las figuras. ReportLa
 
 ## Apartado a
 
-La función está en [ecualizacion.py](ecualizacion.py). La [explicación del apartado a](docs/apartado_a.md) detalla el cálculo, los bordes y las ventanas pares. El script del apartado b la ejecuta sobre la imagen de entrada.
+La función está en [ecualizacion.py](ecualizacion.py). La [explicación del apartado a](docs/apartado_a.md) detalla el cálculo, los bordes y por qué la ventana debe tener dimensiones impares. El script del apartado b la ejecuta sobre la imagen de entrada.
 
 ```python
 import cv2
@@ -63,7 +63,7 @@ La [explicación del apartado b](docs/apartado_b.md) identifica los objetos: un 
 
 ## Apartado c
 
-[comparar_ventanas.py](comparar_ventanas.py) ejecuta diez tamaños: 1x1, 3x3, 7x7, 15x15, 31x31, 63x63, 127x127, 7x31, 31x7 y 4x6. Guarda las imágenes, comparaciones y tiempos fuera del repositorio.
+[comparar_ventanas.py](comparar_ventanas.py) ejecuta nueve tamaños, todos con dimensiones impares: 1x1, 3x3, 7x7, 15x15, 31x31, 63x63, 127x127, 7x31 y 31x7. Guarda las imágenes, comparaciones y tiempos fuera del repositorio.
 
 ```powershell
 .\.venv\Scripts\python.exe comparar_ventanas.py --imagen $imagenTp --salida (Join-Path $salidaTp "c")

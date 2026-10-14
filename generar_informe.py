@@ -32,7 +32,7 @@ SALIDA = RAIZ / "docs" / "informe.pdf"
 CAPTURAS = {
     "b_histogramas": ("b", "comparacion_histogramas.png", "Comparación global y local con sus histogramas."),
     "b_zonas": ("b", "zonas.png", "Los cinco recortes originales y sus resultados locales."),
-    "c_ventanas": ("c", "comparacion_ventanas.png", "Imagen original, referencia global y diez ventanas."),
+    "c_ventanas": ("c", "comparacion_ventanas.png", "Imagen original, referencia global y nueve ventanas."),
     "c_zonas": ("c", "comparacion_zonas.png", "Cinco zonas procesadas con cinco ventanas cuadradas."),
     "c_rectangulares": ("c", "comparacion_rectangulares.png", "Ventanas cuadrada y rectangulares de comparación."),
 }

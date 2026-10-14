@@ -1,6 +1,6 @@
 # Apartado c Influencia del tamaño de la ventana
 
-Se procesó la misma imagen con diez ventanas, manteniendo la función del apartado a, el borde replicado y la visualización entre 0 y 255. Para esta imagen, **15 por 15 ofrece un resultado claro para reconocer los cinco detalles**; 31 por 31 también resulta útil. Esta conclusión surge de la inspección de los resultados, no de una regla que valga para cualquier imagen.
+Se procesó la misma imagen con nueve ventanas, manteniendo la función del apartado a, el borde replicado y la visualización entre 0 y 255. Para esta imagen, **15 por 15 ofrece un resultado claro para reconocer los cinco detalles**; 31 por 31 también resulta útil. Esta conclusión surge de la inspección de los resultados, no de una regla que valga para cualquier imagen.
 
 ## Ventanas cuadradas
 
@@ -22,13 +22,13 @@ Una ventana grande no es automáticamente igual a una ecualización global: sigu
 
 <!-- CAPTURA: c_zonas -->
 
-## Ventanas rectangulares y pares
+## Ventanas rectangulares
 
 Las ventanas **7 por 31** y **31 por 7** contienen ambas 217 píxeles, pero incluyen vecinos diferentes. En 7 por 31 el entorno es ancho y bajo; en 31 por 7 es alto y angosto. Se observan halos alargados en distintas direcciones y diferencias alrededor de las líneas horizontales y de la letra a. Las cinco formas se conservan, pero la imagen resultante no depende solamente del área de la ventana.
 
 <!-- CAPTURA: c_rectangulares -->
 
-Se incluyó también **4 por 6**, usando el anclaje `(2, 3)` definido en el apartado a. Su resultado muestra una respuesta de ventana pequeña, con contornos y variaciones muy visibles. Las ventanas impares tienen la ventaja de contar con un centro único y simétrico.
+Se usan solamente dimensiones **impares**: así cada ventana tiene un **centro único** y la vecindad es **simétrica** alrededor del píxel que se actualiza. Con una ventana par no existe un píxel central y la vecindad queda desplazada hacia un lado, lo que introduce una asimetría en el resultado. Por eso no se incluyen ventanas pares en la comparación.
 
 ## Tiempo de cálculo
 
@@ -45,7 +45,6 @@ Los tiempos de una ejecución con Python 3.12 están en el CSV que genera el scr
 | 127 por 127 | 15,65 |
 | 7 por 31 | 6,22 |
 | 31 por 7 | 4,36 |
-| 4 por 6 | 5,61 |
 
 Son mediciones de una sola ejecución y varían con el equipo y su carga. El tiempo no crece de manera estricta en todas las filas, porque también intervienen el costo fijo del histograma y las variaciones de ejecución. La ventana más grande sí exige procesar más datos en cada posición y tarda bastante más que las chicas.
 
@@ -55,6 +54,6 @@ Son mediciones de una sola ejecución y varían con el equipo y su carga. El tie
 .\.venv\Scripts\python.exe comparar_ventanas.py --imagen "C:\ruta\Imagen_con_detalles_escondidos.tif"
 ```
 
-El script guarda las diez imágenes `local_MxN.png`, tres figuras comparativas y el CSV en la carpeta temporal del sistema o en la ruta indicada con `--salida`. Para esta imagen se elige 15 por 15 como compromiso entre visibilidad de las formas, alcance de los halos y tiempo de cálculo. La ecualización también amplifica pequeñas variaciones, por lo que una mayor respuesta visual no significa necesariamente una mejor imagen en todos los aspectos.
+El script guarda las nueve imágenes `local_MxN.png`, tres figuras comparativas y el CSV en la carpeta temporal del sistema o en la ruta indicada con `--salida`. Para esta imagen se elige 15 por 15 como compromiso entre visibilidad de las formas, alcance de los halos y tiempo de cálculo. La ecualización también amplifica pequeñas variaciones, por lo que una mayor respuesta visual no significa necesariamente una mejor imagen en todos los aspectos.
 
 La interpretación utiliza el histograma normalizado y la transformación acumulada de la Unidad 2, páginas 8 a 15, y la ventana móvil del enunciado. Las figuras utilizan lectura, recortes y visualización de la Unidad 1. Véase el [mapa de referencias](referencias.md).

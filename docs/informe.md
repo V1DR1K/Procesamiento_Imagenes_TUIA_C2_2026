@@ -10,9 +10,9 @@ También se desarrollaron los apartados a, b, c y d del Problema 2. La solución
 
 | Apartado | Implementación | Desarrollo y resultados |
 | --- | --- | --- |
-| a | [ecualizacion.py](../ecualizacion.py) | [Función, fórmula, bordes y tamaños pares](apartado_a.md) |
+| a | [ecualizacion.py](../ecualizacion.py) | [Función, fórmula, bordes y ventanas impares](apartado_a.md) |
 | b | [analizar_imagen.py](../analizar_imagen.py) | [Objetos identificados e imágenes comparativas](apartado_b.md) |
-| c | [comparar_ventanas.py](../comparar_ventanas.py) | [Influencia de diez ventanas y tiempos de cálculo](apartado_c.md) |
+| c | [comparar_ventanas.py](../comparar_ventanas.py) | [Influencia de nueve ventanas y tiempos de cálculo](apartado_c.md) |
 | 2.a | [validar_planilla.py](../validar_planilla.py) | [Detección de grilla y validación estructural por campo](apartado_2a.md) |
 | 2.b | [validar_planilla.py](../validar_planilla.py) | [Clasificación de condición y recortes de libres y recuperantes](apartado_2b.md) |
 | 2.c | [validar_planilla.py](../validar_planilla.py) | CSV con ID y estado OK/MAL para los seis campos de cada registro. |
@@ -24,7 +24,7 @@ En a se usa una matriz `uint8`, una ventana `(M, N)` de enteros positivos, un hi
 
 Los detalles oscuros tienen valores entre 0 y 11, mientras que el fondo claro está entre 226 y 228. La escasa diferencia de intensidades dentro de cada objeto los oculta en la imagen original y limita lo que muestra una ecualización global. La ecualización local adapta el histograma a los valores de cada entorno y deja ver esas formas.
 
-El borde requiere completar el vecindario de los píxeles extremos. Se usó la replicación propuesta en la ayuda del enunciado. En las ventanas pares no hay un centro único; el código selecciona el píxel con índice `(M // 2, N // 2)`. Estos dos casos afectan la interpretación de los primeros y últimos píxeles de la imagen y se explican en el apartado a.
+El borde requiere completar el vecindario de los píxeles extremos. Se usó la replicación propuesta en la ayuda del enunciado. Además, la función exige ventanas de dimensiones impares: así el píxel central es único y la vecindad es simétrica; con dimensiones pares devuelve un error. Ambas decisiones se explican en el apartado a.
 
 Los contenidos utilizados son la representación matricial, la escala de grises, el histograma de 256 niveles, su normalización y la transformación acumulada discreta. Se consultaron las páginas 3, 5 a 8 y 12 a 15 de la Presentación de PowerPoint2, las páginas 8 a 15 de PDI_TUIA_U2_Transformacion_y_Filtrado y la página 1 del enunciado. El [mapa de referencias](referencias.md) identifica los PDF originales.
 
@@ -36,7 +36,7 @@ La segunda figura compara los recortes originales con sus resultados locales en 
 
 <!-- CAPTURA: b_zonas -->
 
-En c se compararon las ventanas 1x1, 3x3, 7x7, 15x15, 31x31, 63x63, 127x127, 7x31, 31x7 y 4x6. Las chicas destacan contornos y variaciones; las grandes incluyen más fondo y debilitan varios detalles. Los rectángulos cambian la orientación de los halos. La figura siguiente reúne la comparación completa.
+En c se compararon las ventanas 1x1, 3x3, 7x7, 15x15, 31x31, 63x63, 127x127, 7x31 y 31x7, todas con dimensiones impares para que la vecindad sea simétrica. Las chicas destacan contornos y variaciones; las grandes incluyen más fondo y debilitan varios detalles. Los rectángulos cambian la orientación de los halos. La figura siguiente reúne la comparación completa.
 
 <!-- CAPTURA: c_ventanas -->
 
@@ -61,7 +61,6 @@ Los tiempos se midieron durante el procesamiento de las ventanas; no incluyen el
 | 127x127 | 15,65 |
 | 7x31 | 6,22 |
 | 31x7 | 4,36 |
-| 4x6 | 5,61 |
 
 ## Problema 2 - Validación de planillas de calificaciones
 
@@ -123,7 +122,7 @@ Este informe reúne los Problemas 1 y 2. Las funciones de P2 validan el formato 
 
 ## Validación y ejecución
 
-La validación automatizada documentada corresponde al Problema 1: incluye el caso de cálculo manual, ventanas pares, impares, rectangulares, bordes y entradas inválidas. También se revisaron visualmente las figuras comparativas y la integridad de las fuentes. Los detalles están en [validacion.md](validacion.md). Para el Problema 2, el repositorio documenta el desarrollo y los resultados de las planillas en las explicaciones de [2.a](apartado_2a.md), [2.b](apartado_2b.md) y [2.d](apartado_2d.md); no se informa allí una batería equivalente de pruebas automatizadas.
+La validación automatizada documentada corresponde al Problema 1: incluye el caso de cálculo manual, ventanas impares cuadradas y rectangulares, bordes, el rechazo de ventanas pares y entradas inválidas. También se revisaron visualmente las figuras comparativas y la integridad de las fuentes. Los detalles están en [validacion.md](validacion.md). Para el Problema 2, el repositorio documenta el desarrollo y los resultados de las planillas en las explicaciones de [2.a](apartado_2a.md), [2.b](apartado_2b.md) y [2.d](apartado_2d.md); no se informa allí una batería equivalente de pruebas automatizadas.
 
 Las instrucciones para preparar el entorno, ejecutar cada apartado y compilar este PDF están en el [README](../README.md).
 

@@ -27,6 +27,6 @@ Los archivos `grade_sheet_<id>.png` son las entradas de los apartados 2.a a 2.d.
 
 ## Decisiones de implementación
 
-La extensión de la ecualización global a una ventana móvil está pedida por el enunciado. El redondeo a un entero entre 0 y 255 y el anclaje de ventanas pares son decisiones de implementación, explicadas en el apartado a. No se utiliza CLAHE ni una función de ecualización local ya resuelta por una biblioteca.
+La extensión de la ecualización global a una ventana móvil está pedida por el enunciado. El redondeo a un entero entre 0 y 255 y la exigencia de ventanas impares son decisiones de implementación, explicadas en el apartado a. No se utiliza CLAHE ni una función de ecualización local ya resuelta por una biblioteca.
 
 La organización de carpetas, los argumentos de ejecución y las verificaciones son herramientas auxiliares de Python; no agregan técnicas de procesamiento de imágenes. La conclusión sobre qué ventana resulta útil se obtiene observando los experimentos de esta entrega, no de una recomendación externa.

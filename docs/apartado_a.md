@@ -15,11 +15,11 @@ salida[fila, columna] = redondear(255 * CDF[imagen[fila, columna]])
 
 El factor 255 devuelve el valor normalizado al rango de una imagen de 8 bits. El redondeo se implementa sumando 0,5 y tomando la parte entera, ya que los valores son no negativos. Después se avanza un píxel. Cada ventana se lee de la imagen original con borde, de modo que los resultados anteriores no cambien el histograma siguiente.
 
-## Bordes y tamaños pares
+## Bordes y ventanas impares.
 
 Se utiliza `cv2.copyMakeBorder` con `cv2.BORDER_REPLICATE`, sugeridos en la AYUDA de la página 1 del enunciado. Así se procesa también el borde sin reducir el tamaño de las ventanas ni las dimensiones de salida.
 
-Para una dimensión impar, el anclaje `M // 2` es el centro único. Para una dimensión par no hay un único píxel central: elegimos el de índice `M // 2`, contando desde cero. Por ejemplo, para `(4, 6)` el anclaje es `(2, 3)`, se agregan 2 filas arriba, 1 abajo, 3 columnas a la izquierda y 2 a la derecha. Esta convención permite aceptar todos los enteros positivos pedidos en el enunciado; es una decisión de implementación y no una técnica nueva.
+La función exige que M y N sean **impares**. Con una dimensión impar, el índice `M // 2` es el **centro único** de la ventana y se agrega la misma cantidad de píxeles de borde de cada lado, por lo que la vecindad es **simétrica**. Con una dimensión par no existe un píxel central y la vecindad quedaría desplazada hacia un lado; por eso la función rechaza esas ventanas con un error.
 
 ## Caso uniforme y límites
 
@@ -29,7 +29,7 @@ Esta implementación explícita es fácil de seguir, aunque recalcular el histog
 
 ## Verificación
 
-Se comprueban un ejemplo calculado a mano, los bordes, ventanas pares, impares, rectangulares y mayores que la imagen, imágenes uniformes, la ventana `(1, 1)`, entradas inválidas y que la imagen original no cambie. El resultado también se contrasta con un conteo directo de píxeles de intensidad menor o igual que el centro, independiente del cálculo de histograma.
+Se comprueban un ejemplo calculado a mano, los bordes, ventanas impares cuadradas, rectangulares y mayores que la imagen, el rechazo de ventanas pares, imágenes uniformes, la ventana `(1, 1)`, entradas inválidas y que la imagen original no cambie. El resultado también se contrasta con un conteo directo de píxeles de intensidad menor o igual que el centro, independiente del cálculo de histograma.
 
 ```powershell
 .\.venv\Scripts\python.exe -B -m unittest discover -s tests -v

@@ -8,7 +8,7 @@ La solución se ejecutó el 30 de septiembre de 2026 con **Python 3.12.10**, Num
 | --- | --- |
 | Cuatro pruebas automatizadas y sus subcasos | Todas pasaron |
 | Ejemplo 2x2, ventana 3x3, cálculo manual con borde replicado | Salida `[[113, 170], [198, 255]]`, como se esperaba |
-| Contraste con conteo independiente, sin histograma ni agregado de borde de OpenCV | Coincide para siete ventanas, incluidos tamaños pares y mayores que la imagen |
+| Contraste con conteo independiente, sin histograma ni agregado de borde de OpenCV | Coincide para seis ventanas impares, incluidas rectangulares y mayores que la imagen |
 | Dimensiones, tipo y preservación de la entrada | La salida conserva la forma y `uint8`; no se modifica la imagen original |
 | Imagen uniforme y ventana 1x1 | Salida blanca, según la CDF directa |
 | Entradas inválidas | Se rechazan con un mensaje de error |

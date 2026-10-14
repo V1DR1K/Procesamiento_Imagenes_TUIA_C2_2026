@@ -17,8 +17,8 @@ class PruebasEcualizacionLocal(unittest.TestCase):
     def test_ventanas_coinciden_con_conteo_directo(self):
         imagen = np.array([[20, 5, 20], [0, 255, 10]], dtype=np.uint8)
         original = imagen.copy()
-        # Contrastamos pares, impares, rectangulares y ventanas mayores que la imagen.
-        for m, n in [(1, 1), (1, 3), (3, 1), (2, 2), (2, 4), (3, 5), (8, 9)]:
+        # Contrastamos ventanas impares cuadradas, rectangulares y mayores que la imagen.
+        for m, n in [(1, 1), (1, 3), (3, 1), (3, 5), (5, 3), (9, 9)]:
             with self.subTest(ventana=(m, n)):
                 salida = ecualizacion_local(imagen, (m, n))
                 self.assertEqual(salida.shape, imagen.shape)
@@ -48,7 +48,8 @@ class PruebasEcualizacionLocal(unittest.TestCase):
 
     def test_entrada_invalida_se_rechaza(self):
         imagen = np.zeros((2, 2), dtype=np.uint8)
-        for ventana in [None, 3, (3,), (3, 3, 3), (0, 3), (-1, 3), (2.5, 3), (True, 3)]:
+        for ventana in [None, 3, (3,), (3, 3, 3), (0, 3), (-1, 3), (2.5, 3), (True, 3),
+                        (2, 3), (3, 4), (4, 6)]:
             with self.subTest(ventana=ventana), self.assertRaises(ValueError):
                 ecualizacion_local(imagen, ventana)
         for entrada in [None, [[1]], np.zeros((0, 2), dtype=np.uint8),

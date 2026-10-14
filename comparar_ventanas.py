@@ -13,9 +13,10 @@ from ecualizacion import ecualizacion_local
 
 
 # Los cuadrados muestran la influencia del tamaño; los rectángulos, la orientación.
-# 1x1 es el caso límite y 4x6 permite observar también una ventana par.
+# 1x1 es el caso límite. Solo usamos dimensiones impares: tienen un centro único
+# y una vecindad simétrica alrededor del píxel.
 VENTANAS = [(1, 1), (3, 3), (7, 7), (15, 15), (31, 31), (63, 63),
-            (127, 127), (7, 31), (31, 7), (4, 6)]
+            (127, 127), (7, 31), (31, 7)]
 
 
 def comparar_ventanas(ruta_imagen=IMAGEN, carpeta_salida=None):
@@ -48,6 +49,9 @@ def comparar_ventanas(ruta_imagen=IMAGEN, carpeta_salida=None):
     for eje, (titulo, resultado) in zip(ejes.flatten(), paneles):
         eje.imshow(resultado, cmap="gray", vmin=0, vmax=255)
         eje.set_title(titulo)
+        eje.axis("off")
+    # Con 11 paneles en una grilla de 3x4 sobra un lugar: lo dejamos en blanco.
+    for eje in ejes.flatten()[len(paneles):]:
         eje.axis("off")
     figura.suptitle("Influencia del tamaño y la forma de la ventana")
     figura.tight_layout()
