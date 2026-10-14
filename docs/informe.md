@@ -28,7 +28,7 @@ El borde requiere completar el vecindario de los píxeles extremos. Se usó la r
 
 Los contenidos utilizados son la representación matricial, la escala de grises, el histograma de 256 niveles, su normalización y la transformación acumulada discreta. Se consultaron las páginas 3, 5 a 8 y 12 a 15 de la Presentación de PowerPoint2, las páginas 8 a 15 de PDI_TUIA_U2_Transformacion_y_Filtrado y la página 1 del enunciado. El [mapa de referencias](referencias.md) identifica los PDF originales.
 
-En b se identificaron un cuadrado pequeño en la zona superior izquierda, una diagonal en la superior derecha, una a minúscula en el centro, cuatro líneas horizontales en la inferior izquierda y un círculo en la inferior derecha. La primera figura compara la imagen original, la referencia global y el resultado local con sus histogramas.
+En b se identificaron un cuadrado pequeño en la zona superior izquierda, una diagonal en la superior derecha, una a minúscula en el centro, cuatro líneas horizontales en la inferior izquierda y un círculo en la inferior derecha. La primera figura compara la imagen original, la ecualización global de OpenCV (cv2.equalizeHist) y el resultado local con sus histogramas.
 
 <!-- CAPTURA: b_histogramas -->
 

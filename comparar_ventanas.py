@@ -42,7 +42,7 @@ def comparar_ventanas(ruta_imagen=IMAGEN, carpeta_salida=None):
         escritor.writerows(tiempos)
 
     # Unidad 1, páginas 6 y 7: comparamos siempre con escala de gris fija 0 a 255.
-    paneles = [("Original", imagen), ("Global", ecualizacion_global(imagen))]
+    paneles = [("Original", imagen), ("Global (cv2.equalizeHist)", ecualizacion_global(imagen))]
     paneles += [(f"Local {m}x{n}", resultados[(m, n)]) for m, n in VENTANAS]
     figura, ejes = plt.subplots(3, 4, figsize=(12, 10))
     for eje, (titulo, resultado) in zip(ejes.flatten(), paneles):

@@ -44,12 +44,9 @@ def guardar_imagen(ruta, imagen):
 
 
 def ecualizacion_global(imagen):
-    # Unidad 2, páginas 9, 13 y 15: la misma CDF, usando toda la imagen.
-    histograma, _ = np.histogram(imagen.flatten(), 256, [0, 256])
-    acumulada = (histograma.astype(np.double) / imagen.size).cumsum()
-    # Usamos el mismo redondeo del apartado a para comparar ambos alcances.
-    tabla = (255 * acumulada + 0.5).astype(np.uint8)
-    return tabla[imagen]
+    # Unidad 2, página 13: ecualización global de histograma con OpenCV.
+    # Calcula la CDF con todos los píxeles de la imagen y la usa como transformación.
+    return cv2.equalizeHist(imagen)
 
 
 def analizar_imagen(ruta_imagen=IMAGEN, ventana=(15, 15), carpeta_salida=None):
@@ -67,7 +64,7 @@ def analizar_imagen(ruta_imagen=IMAGEN, ventana=(15, 15), carpeta_salida=None):
     # Unidad 2, página 14: visualización de las imágenes junto a sus histogramas.
     figura, ejes = plt.subplots(2, 3, figsize=(11, 7))
     for columna, (titulo, resultado) in enumerate([
-        ("Original", imagen), ("Ecualización global", global_), (f"Local {m}x{n}", local)
+        ("Original", imagen), ("Global (cv2.equalizeHist)", global_), (f"Local {m}x{n}", local)
     ]):
         # Unidad 1, páginas 6 y 7: una escala fija evita falsear la comparación.
         ejes[0, columna].imshow(resultado, cmap="gray", vmin=0, vmax=255)

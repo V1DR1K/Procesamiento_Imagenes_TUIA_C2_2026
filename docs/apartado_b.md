@@ -22,7 +22,7 @@ En las cinco regiones oscuras, los valores de la imagen original van de 0 a 11, 
 
 La ecualización local calcula probabilidades usando los píxeles cercanos al centro. Así puede repartir esas diferencias sobre un intervalo mayor de intensidades. Es la transformación acumulada de la Unidad 2, páginas 11 a 15, aplicada al entorno pedido en la página 1 del enunciado.
 
-Como referencia, se calculó también una ecualización global con la misma fórmula y el mismo redondeo, considerando toda la imagen. Los detalles siguen siendo débiles porque predominan el fondo claro y los grandes cuadrados oscuros. En la versión local se distinguen con mayor claridad las cinco formas.
+Como referencia, se aplicó también la ecualización global de OpenCV, cv2.equalizeHist (Unidad 2, página 13), que usa como transformación la CDF de toda la imagen.
 
 <!-- CAPTURA: b_histogramas -->
 
