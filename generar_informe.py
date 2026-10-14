@@ -51,6 +51,50 @@ def separar_celdas(fila):
     """Lee las celdas de una fila sencilla de tabla Markdown."""
     return [celda.strip() for celda in fila.strip().strip("|").split("|")]
 
+def armar_caratula():
+    """Devuelve los elementos de la carátula, seguidos de un salto de página."""
+    institucion = ParagraphStyle(
+        name="CaratulaInstitucion", fontName="Helvetica", fontSize=12, leading=17,
+        textColor=colors.HexColor("#253244"), alignment=TA_CENTER,
+    )
+    materia = ParagraphStyle(
+        name="CaratulaMateria", fontName="Helvetica-Bold", fontSize=15, leading=20,
+        textColor=colors.HexColor("#245B80"), alignment=TA_CENTER,
+    )
+    titulo = ParagraphStyle(
+        name="CaratulaTitulo", fontName="Helvetica-Bold", fontSize=28, leading=34,
+        textColor=colors.HexColor("#17365D"), alignment=TA_CENTER,
+    )
+    subtitulo = ParagraphStyle(
+        name="CaratulaSubtitulo", fontName="Helvetica-Oblique", fontSize=13, leading=18,
+        textColor=colors.HexColor("#526477"), alignment=TA_CENTER,
+    )
+    datos = ParagraphStyle(
+        name="CaratulaDatos", fontName="Helvetica", fontSize=11.5, leading=17,
+        textColor=colors.HexColor("#253244"), alignment=TA_CENTER,
+    )
+    return [
+        Spacer(1, 2 * cm),
+        Paragraph("Universidad Nacional de Rosario", institucion),
+        Paragraph("Facultad de Ciencias Exactas, Ingeniería y Agrimensura", institucion),
+        Paragraph("Tecnicatura Universitaria en Inteligencia Artificial", institucion),
+        Spacer(1, 3 * cm),
+        Paragraph("Procesamiento de Imágenes I", materia),
+        Spacer(1, 0.8 * cm),
+        Paragraph("Trabajo Práctico N.º 1", titulo),
+        Spacer(1, 0.6 * cm),
+        Paragraph("Ecualización local de histograma y<br/>validación de planillas de calificaciones", subtitulo),
+        Spacer(1, 4 * cm),
+        Paragraph("<b>Integrantes</b>", datos),
+        Paragraph("Juan Manuel Ayala", datos),
+        Paragraph("Franco Cerana", datos),
+        Paragraph("Tomás Colombo", datos),
+        Paragraph("Manuel Ibarbia", datos),
+        Spacer(1, 1.5 * cm),
+        Paragraph("Segundo cuatrimestre de 2026", datos),
+        PageBreak(),
+    ]
+
 
 def compilar(informe, salida, capturas_b, capturas_c):
     """Construye el PDF a partir del Markdown y las cinco figuras de los scripts."""
@@ -98,7 +142,7 @@ def compilar(informe, salida, capturas_b, capturas_c):
         alignment=TA_CENTER, spaceAfter=6,
     ))
 
-    cuerpo = []
+    cuerpo = armar_caratula()
     lineas = texto.splitlines()
     indice = 0
     while indice < len(lineas):
@@ -222,13 +266,17 @@ def compilar(informe, salida, capturas_b, capturas_c):
         canvas.drawRightString(ancho - documento.rightMargin, 24, f"Página {documento.page}")
         canvas.restoreState()
 
+    def sin_encabezado(canvas, documento):
+        # La carátula no lleva encabezado ni número de página.
+        pass
+
     documento = SimpleDocTemplate(
         str(salida), pagesize=A4, title="Informe TP1 - Problemas 1 y 2",
         author="Tomas Colombo, Manuel Ibarbia, Juan Manuel Ayala y Franco Cerana",
         subject="Ecualización local y validación de planillas",
         leftMargin=2 * cm, rightMargin=2 * cm, topMargin=1.8 * cm, bottomMargin=1.5 * cm,
     )
-    documento.build(cuerpo, onFirstPage=encabezado_y_pie, onLaterPages=encabezado_y_pie)
+    documento.build(cuerpo, onFirstPage=sin_encabezado, onLaterPages=encabezado_y_pie)
     print(f"Informe PDF guardado en: {salida}")
 
 
